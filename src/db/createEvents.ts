@@ -1,5 +1,7 @@
 import {prisma} from '../lib/prisma'
 
+import bcrypt from 'bcryptjs';
+
 export async function createEvents() {
     const chiangMaiOrg = await prisma.organizer.create({
         data: {
@@ -18,6 +20,54 @@ export async function createEvents() {
             name: 'CAMT'
         }
     })
+
+
+      const roleAdmin = await prisma.role.create({
+       data: {
+     name: 'ROLE_ADMIN'
+       }
+   })
+ const roleUser = await prisma.role.create({
+      data: {
+      name: 'ROLE_USER'
+     }
+  })
+
+      const numSaltAround = 10;
+     const user1 = await prisma.user.create({
+          data: {
+            username: 'user1@abc.com',
+                 password: bcrypt.hashSync('password1', numSaltAround),
+                organizer: {
+                  connect: {
+                         id: chiangMaiOrg.id
+                        }
+                 },
+              roles: {
+                    connect: [
+                          {id: roleAdmin.id},
+                          {id: roleUser.id}
+                        ]
+                  }
+            }
+      })
+      const user2 = await prisma.user.create({
+            data: {
+              username: 'user2@abc.com',
+                  password: bcrypt.hashSync('password2', numSaltAround),
+                  organizer: {
+                   connect: {
+                          id: cmuOrg.id
+                        }
+                  },
+              roles: {
+                    connect: [
+                          {id: roleUser.id}
+                        ]
+                  }
+            }
+      })
+
 
     const events = [
         {

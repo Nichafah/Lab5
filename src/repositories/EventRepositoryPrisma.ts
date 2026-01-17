@@ -39,15 +39,23 @@ export function addEvent(newEvent: Event) {
 
 export function getAllEventsWithOrganizer() {
     return prisma.event.findMany({
+
         select: {
-            id: true,
-            category: true,
-            organizerId: false,
-            organizer: {
-                select: {
-                    name: true
-                }
-            },
+                id: true,
+                category: true,
+   title: true,
+  description: true,
+location: true,
+ date: true,
+ time: true,
+ petsAllowed: true,
+        organizerId: false,
+        organizer: {
+        select: {
+            name: true
+        }
+
+    },
             participants: {
                 select: {
                     id: true,

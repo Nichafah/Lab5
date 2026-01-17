@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
 import type {QueryResult } from 'pg';
+const port = process.env.PORT || 3000;
 
 const pool = new Pool({
     user: 'admin',
